@@ -1,0 +1,25 @@
+Weather
+=======
+Version: 1.0.1-beta (2012-08-01)
+Authors: Dan Gibbs <dan@goldcoastmedia.co.uk>
+
+Weather is a MODx snippet that displays Google Weather feeds.
+
+Please read the documentation at http://www.goldcoastmedia.co.uk/tools/modx-weather/ 
+for usage, examples, parameters and placeholder information.
+
+NOTE: curl or file_get_contents must be able to read remote files. You can set 
+which method to use with the &method=`` parameter.
+
+NOTE: These feeds are used by Google products but have not been released in any 
+official capacity. They are not documented and Google does not provide support for 
+them.
+
+Git repo: https://github.com/GoldCoastMedia/modx-google-weather/
+
+Documentation
+-------------
+Full detailed documentation available at: 
+http://www.goldcoastmedia.co.uk/tools/modx-weather/
+
+Gold Coast Media Ltd
