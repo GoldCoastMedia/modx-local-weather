@@ -25,8 +25,6 @@
  */
 
 class LocalWeather {
-
-	const API_URL = 'http://free.worldweatheronline.com/feed/weather.ashx?';
 	
 	// Default configuration
 	public $config = array(
@@ -35,7 +33,8 @@ class LocalWeather {
 		'css'           => 'assets/components/localweather/css/localweather.css',
 		'country'       => NULL,
 		'days'          => 5,
-		'iconurl'       => 'assets/components/localweather/icons/',
+		'iconurl'       => '/assets/components/localweather/icons/',
+		'key'           => NULL,
 		'location'      => 'London',
 		'measurement'   => 'c',
 		'method'        => 'curl',
@@ -47,7 +46,9 @@ class LocalWeather {
 		xPDO::OPT_CACHE_KEY => 'includes/elements/localweather',
 	);
 	
-	protected $modx = NULL;
+	protected $modx      = NULL;
+	protected $namespace = 'localweather.';
+	protected $api_url   = 'http://free.worldweatheronline.com/feed/weather.ashx?';
 	
 	public function __construct(modX &$modx, array &$config)
 	{
@@ -57,22 +58,68 @@ class LocalWeather {
 
 		// Force all parameters to lowercase
 		$config = array_change_key_case($config, CASE_LOWER);
+		
+		// Get MODx Manager settings
+		$settings = $this->modx->newQuery('modSystemSetting')->where(
+			array('key:LIKE' => $this->namespace . '%')
+		);
+		$settings = $this->modx->getCollection('modSystemSetting', $settings);
+		
+		// Apply MODx manager settings
+		foreach($settings as $key => $setting) {
+			$key = str_replace($this->namespace, '', $key);
 
-		// Merge snippet parameters with default config
+			// Don't overwrite snippet params
+			if(empty($config[$key]) OR $config[$key] === NULL)
+				$config[$key] = $setting->get('value');
+		}
+		
+		// Merge snippet parameters and system settings with default config
 		$this->config = array_merge($this->config, $config);
+		//print_r($this->config);
 	}
 	
 	public function run()
 	{
 		$resource = &$this->modx->resource;
 		
-		// API URL parameters
-		$url_params = array(
-			'key'         => '',
-			'num_of_days' => $this->config['days'],
-			'q'           => '',
-			'format'      => 'json',
-		);
+		if($url = $this->build_request_uri())
+		{
+			echo $url;
+		}
+	}
+	
+	/**
+	 * Build the request URL
+	 *
+	 * @return  string|bool
+	 */
+	protected function build_request_uri()
+	{
+		if(empty($this->config['key']) OR $this->config['key'] === NULL)
+		{
+			$error = $this->modx->lexicon('localweather.no_key');
+			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
+			return FALSE;
+		}
+		else
+		{
+			// API URL parameters
+			$url_params = array(
+				'key'         => $this->config['key'],
+				'num_of_days' => $this->config['days'],
+				'q'           => $this->config['location'],
+				'format'      => 'json',
+			);
+		
+			// Add a country if set
+			if($this->config['country'] !== NULL)
+				$url_params['q'] = sprintf('%s,%s', $url_params['q'], $this->config['country']);
+
+			$url = $this->api_url . http_build_query($url_params);
+
+			return $url;
+		}
 	}
 	
 	/**
