@@ -1,10 +1,10 @@
 <?php
 /**
- * Local Local Weather
+ * Local Weather
  *
  * Copyright (c) 2012 Gold Coast Media Ltd
  *
- * This file is part of Local Weather.
+ * This file is part of Local Weather for MODx.
  *
  * Local Weather is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -26,12 +26,20 @@
 
 class LocalWeather {
 
+	const API_URL = 'http://free.worldweatheronline.com/feed/weather.ashx?';
+	
 	// Default configuration
 	public $config = array(
 		'cachelifetime' => 1800,
 		'cachename'     => NULL,
-		'css'           => 'assets/components/weather/css/localweather.css',
+		'css'           => 'assets/components/localweather/css/localweather.css',
+		'country'       => NULL,
+		'days'          => 5,
+		'iconurl'       => 'assets/components/localweather/icons/',
+		'location'      => 'London',
+		'measurement'   => 'c',
 		'method'        => 'curl',
+		'tpl'           => 'weather',
 	);
 	
 	// MODx caching options
@@ -57,14 +65,44 @@ class LocalWeather {
 	public function run()
 	{
 		$resource = &$this->modx->resource;
+		
+		// API URL parameters
+		$url_params = array(
+			'key'         => '',
+			'num_of_days' => $this->config['days'],
+			'q'           => '',
+			'format'      => 'json',
+		);
+	}
+	
+	/**
+	 * Get the weather feed
+	 *
+	 * @param   string  $url     The URL
+	 * @param   string  $method  The method used to fetch the feed
+	 * @return  bool
+	 */
+	protected function get_feed($url = NULL, $method = NULL)
+	{
+		if( !is_null($url) )
+		{
+			$method = strtolower('fetch_' . $method);
+			return $this->$method($url);
+		}
+		else
+		{
+			$error = $this->modx->lexicon('weather.error_fetch_feed', array('url', $url));
+			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
+			return FALSE;
+		}
 	}
 	
 	/**
 	 * Get a MODx chunk
 	 *
-	 * @param   string  $name	        chunk name
-	 * @param   array   $properties	chunk properties
-	 * @return  object  returns modChunk
+	 * @param   string  $name	 chunk name
+	 * @param   array   $properties	 chunk properties
+	 * @return  object  returns	 modChunk
 	 */
 	protected function get_chunk($name, $properties = array())
 	{
@@ -96,7 +134,7 @@ class LocalWeather {
 	 * Return array from comma separated arguments
 	 *
 	 * @param   string       $string  comma separated string
-	 * @return  array|false
+	 * @return  array|FALSE
 	 */	
 	protected function prepare_array($string)
 	{
