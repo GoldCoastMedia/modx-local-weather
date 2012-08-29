@@ -38,7 +38,6 @@ class LocalWeather {
 		'iconurl'       => '/assets/components/localweather/icons/',
 		'key'           => NULL,
 		'location'      => 'London',
-		'measurement'   => 'c',
 		'method'        => 'curl',
 		'tpl'           => 'weather',
 	);
@@ -52,7 +51,7 @@ class LocalWeather {
 	protected $feed      = NULL;
 	protected $namespace = 'localweather.';
 	protected $api_url   = 'http://free.worldweatheronline.com/feed/weather.ashx?';
-	
+
 	public function __construct(modX &$modx, array &$config)
 	{
 		$this->modx =& $modx;
@@ -61,7 +60,7 @@ class LocalWeather {
 
 		// Force all parameters to lowercase
 		$config = array_change_key_case($config, CASE_LOWER);
-		
+
 		// Get MODx Manager settings
 		$settings = $this->modx->newQuery('modSystemSetting')->where(
 			array('key:LIKE' => $this->namespace . '%')
@@ -80,7 +79,8 @@ class LocalWeather {
 		// Merge snippet parameters and system settings with default config
 		$this->config = array_merge($this->config, $config);
 	}
-	
+
+	// Main snippet execution
 	public function run()
 	{
 		$url = $this->build_request_uri(); echo $url;
@@ -95,16 +95,19 @@ class LocalWeather {
 		else
 		{
 			$output = NULL;
-			$measurement = strtolower($this->config['measurement']);
 			
+			// Current weather
 			if($this->config['current'])
 			{
-				// Current weather
+				$current = $feed->data->current_condition[0];
+				$output .= $this->weather_current($current);
 			}
 
+			// Weather forecast
 			if($this->config['forecast'])
 			{
-				// Weather forecast
+				$forecast = $feed->data->weather;
+				$output .= $this->weather_forecast($forecast);
 			}
 			
 			if( !empty($this->config['css']))
@@ -112,14 +115,80 @@ class LocalWeather {
 				$stylesheets = $this->prepare_array($this->config['css']);
 				$this->insert_css($stylesheets);
 			}
+			
+			return $output;
 		}
 	}
-	
-	protected function weather_current() {}
-	protected function weather_forecast() {}
-	
+
 	/**
-	 * 
+	 * Get the output for the current weather condition
+	 *
+	 * @param   object       $current  feed current weather JSON object
+	 * @return  NULL|string
+	 */
+	protected function weather_current($current)
+	{
+		$properties = array(
+			'cloudcover'       => $current->cloudcover,
+			'humidity'         => $current->humidity,
+			'observation_time' => $current->observation_time,
+			'precipMM'         => $current->precipMM,
+			'pressure'         => $current->pressure,
+			'temp_C'           => $current->temp_C,
+			'temp_F'           => $current->temp_F,
+			'visibility'       => $current->visibility,
+			'weatherCode'      => $current->weatherCode,
+			'weatherDesc'      => $current->weatherDesc[0]->value,
+			'weatherIconUrl'   => $current->weatherIconUrl[0]->value,
+			'winddir16Point'   => $current->winddir16Point,
+			'winddirDegree'    => $current->winddirDegree,
+			'windspeedKmph'    => $current->windspeedKmph,
+			'windspeedMiles'   => $current->windspeedMiles,
+		);
+		
+		return $this->get_chunk($this->config['tpl'], $properties);
+	}
+
+	/**
+	 * Get the output of each individual weather forecast
+	 *
+	 * @param   object       $forecast  feed JSON forecast object
+	 * @return  NULL|string
+	 */
+	protected function weather_forecast($forecast)
+	{
+		$parsed = NULL;
+		
+		foreach($forecast as $key => $weather)
+		{
+			$properties = array(
+				'date'           => $weather->date,
+				'precipMM'       => $weather->precipMM,
+				'tempMaxC'       => $weather->tempMaxC,
+				'tempMaxF'       => $weather->tempMaxF,
+				'tempMinC'       => $weather->tempMinC,
+				'tempMinF'       => $weather->tempMinF,
+				'weatherCode'    => $weather->weatherCode,
+				'weatherDesc'    => $weather->weatherDesc[0]->value,
+				'weatherIconUrl' => $weather->weatherIconUrl[0]->value,
+				'winddir16Point' => $current->winddir16Point,
+				'winddirDegree'  => $current->winddirDegree,
+				'winddirection'  => $current->winddirection,
+				'windspeedKmph'  => $current->windspeedKmph,
+				'windspeedMiles' => $current->windspeedMiles,
+			);
+
+			$parsed .= $this->get_chunk($this->config['rowtpl'], $properties);
+		}
+		
+		return $parsed;
+	}
+
+	/**
+	 * Check and return if the feeds JSON is valid
+	 *
+	 * @param   string  $feed  the JSON feed
+	 * @return  bool
 	 */
 	protected function valid_feed($feed)
 	{
@@ -147,7 +216,7 @@ class LocalWeather {
 			}
 		}
 	}
-	
+
 	/**
 	 * Fetch from or cache or create new request
 	 *
@@ -178,7 +247,7 @@ class LocalWeather {
 			return $this->get_feed($url, $this->config['method']);
 		}
 	}
-	
+
 	/**
 	 * Build the request URL
 	 *
@@ -211,7 +280,7 @@ class LocalWeather {
 			return $url;
 		}
 	}
-	
+
 	/**
 	 * Get the weather feed
 	 *
@@ -233,7 +302,7 @@ class LocalWeather {
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	* Fetch feed via cURL.
 	*
@@ -262,7 +331,7 @@ class LocalWeather {
 		$feed = file_get_contents($url);
 		return $feed;
 	}
-	
+
 	/**
 	 * Get a MODx chunk
 	 *
