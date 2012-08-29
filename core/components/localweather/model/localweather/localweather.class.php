@@ -32,7 +32,9 @@ class LocalWeather {
 		'cachename'     => NULL,
 		'css'           => 'assets/components/localweather/css/localweather.css',
 		'country'       => NULL,
+		'current'       => TRUE,
 		'days'          => 5,
+		'forecast'      => TRUE,
 		'iconurl'       => '/assets/components/localweather/icons/',
 		'key'           => NULL,
 		'location'      => 'London',
@@ -47,6 +49,7 @@ class LocalWeather {
 	);
 	
 	protected $modx      = NULL;
+	protected $feed      = NULL;
 	protected $namespace = 'localweather.';
 	protected $api_url   = 'http://free.worldweatheronline.com/feed/weather.ashx?';
 	
@@ -76,16 +79,103 @@ class LocalWeather {
 		
 		// Merge snippet parameters and system settings with default config
 		$this->config = array_merge($this->config, $config);
-		//print_r($this->config);
 	}
 	
 	public function run()
 	{
-		$resource = &$this->modx->resource;
+		$url = $this->build_request_uri(); echo $url;
+		$feed = $this->feed_cache($this->config['cachename'], $this->config['cachelifetime'], $url);
 		
-		if($url = $this->build_request_uri())
+		if($this->valid_feed($feed) === FALSE)
 		{
-			echo $url;
+			// TODO: Improve error message
+			$error = $this->modx->lexicon('localweather.error_feed_failed');
+			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
+		}
+		else
+		{
+			$output = NULL;
+			$measurement = strtolower($this->config['measurement']);
+			
+			if($this->config['current'])
+			{
+				// Current weather
+			}
+
+			if($this->config['forecast'])
+			{
+				// Weather forecast
+			}
+			
+			if( !empty($this->config['css']))
+			{
+				$stylesheets = $this->prepare_array($this->config['css']);
+				$this->insert_css($stylesheets);
+			}
+		}
+	}
+	
+	protected function weather_current() {}
+	protected function weather_forecast() {}
+	
+	/**
+	 * 
+	 */
+	protected function valid_feed($feed)
+	{
+		$feed = json_decode($feed);
+		
+		if(json_last_error() !== JSON_ERROR_NONE)
+		{
+			return FALSE;
+		}
+		else
+		{
+			// Check for feed based errors
+			if($feed->data->error)
+			{
+				foreach($feed->data->error as $error)
+				{
+					$this->modx->log(modX::LOG_LEVEL_DEBUG, $error->msg);
+				}
+				
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		}
+	}
+	
+	/**
+	 * Fetch from or cache or create new request
+	 *
+	 * @param   string  $name    cache name
+	 * @param   string  $life    cache lifetime
+	 * @param   string  $url     feed URL
+	 * @return  string
+	 */
+	protected function feed_cache($name, $life, $url)
+	{
+		$cachename = ( !empty($name) ) ? $name: $this->modx->resource->get('id');
+		
+		if($life > 0)
+		{
+			if(!$cached = $this->modx->cacheManager->get($cachename, $this->cache_opts))
+			{
+				$cached = $this->get_feed($url, $this->config['method']);
+				
+				// Only cache valid feeds!
+				if($this->valid_feed($cached))
+					$this->modx->cacheManager->set($cachename, $cached, $life, $this->cache_opts);
+			}
+			
+			return $cached;
+		}
+		else
+		{
+			return $this->get_feed($url, $this->config['method']);
 		}
 	}
 	
@@ -138,10 +228,39 @@ class LocalWeather {
 		}
 		else
 		{
-			$error = $this->modx->lexicon('weather.error_fetch_feed', array('url', $url));
+			$error = $this->modx->lexicon('localweather.error_fetch_feed', array('url', $url));
 			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
 			return FALSE;
 		}
+	}
+	
+	/**
+	* Fetch feed via cURL.
+	*
+	* @return  string  Returns XML
+	*/
+	protected function fetch_curl($url)
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		$feed = curl_exec($ch);
+		curl_close($ch);
+
+		return $feed;
+	}
+
+	/**
+	* Returns remote feed via file_get_contents function.
+	*
+	* @access  protected
+	* @return  string     Returns XML
+	*/
+	protected function fetch_file_get_contents($url)
+	{
+		$feed = file_get_contents($url);
+		return $feed;
 	}
 	
 	/**
