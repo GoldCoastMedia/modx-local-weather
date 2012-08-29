@@ -39,6 +39,8 @@ class LocalWeather {
 		'key'           => NULL,
 		'location'      => 'London',
 		'method'        => 'curl',
+		'phpdate'       => 'D',
+		'rowtpl'        => 'forecast',
 		'tpl'           => 'weather',
 	);
 	
@@ -48,7 +50,6 @@ class LocalWeather {
 	);
 	
 	protected $modx      = NULL;
-	protected $feed      = NULL;
 	protected $namespace = 'localweather.';
 	protected $api_url   = 'http://free.worldweatheronline.com/feed/weather.ashx?';
 
@@ -95,7 +96,8 @@ class LocalWeather {
 		else
 		{
 			$output = NULL;
-			
+			$feed = json_decode($feed);
+			echo '<pre>';
 			// Current weather
 			if($this->config['current'])
 			{
@@ -129,6 +131,7 @@ class LocalWeather {
 	protected function weather_current($current)
 	{
 		$properties = array(
+			'day'              => date($this->config['phpdate']),
 			'cloudcover'       => $current->cloudcover,
 			'humidity'         => $current->humidity,
 			'observation_time' => $current->observation_time,
@@ -146,6 +149,8 @@ class LocalWeather {
 			'windspeedMiles'   => $current->windspeedMiles,
 		);
 		
+		print_r($properties);
+		
 		return $this->get_chunk($this->config['tpl'], $properties);
 	}
 
@@ -158,10 +163,11 @@ class LocalWeather {
 	protected function weather_forecast($forecast)
 	{
 		$parsed = NULL;
-		
+
 		foreach($forecast as $key => $weather)
 		{
 			$properties = array(
+				'day'            => date($this->config['phpdate'], strtotime($weather->date)),
 				'date'           => $weather->date,
 				'precipMM'       => $weather->precipMM,
 				'tempMaxC'       => $weather->tempMaxC,
@@ -171,16 +177,18 @@ class LocalWeather {
 				'weatherCode'    => $weather->weatherCode,
 				'weatherDesc'    => $weather->weatherDesc[0]->value,
 				'weatherIconUrl' => $weather->weatherIconUrl[0]->value,
-				'winddir16Point' => $current->winddir16Point,
-				'winddirDegree'  => $current->winddirDegree,
-				'winddirection'  => $current->winddirection,
-				'windspeedKmph'  => $current->windspeedKmph,
-				'windspeedMiles' => $current->windspeedMiles,
+				'winddir16Point' => $weather->winddir16Point,
+				'winddirDegree'  => $weather->winddirDegree,
+				'winddirection'  => $weather->winddirection,
+				'windspeedKmph'  => $weather->windspeedKmph,
+				'windspeedMiles' => $weather->windspeedMiles,
 			);
+			
+			print_r($properties);
 
 			$parsed .= $this->get_chunk($this->config['rowtpl'], $properties);
 		}
-		
+
 		return $parsed;
 	}
 
@@ -201,7 +209,7 @@ class LocalWeather {
 		else
 		{
 			// Check for feed based errors
-			if($feed->data->error)
+			if(property_exists($feed->data, 'error'))
 			{
 				foreach($feed->data->error as $error)
 				{
