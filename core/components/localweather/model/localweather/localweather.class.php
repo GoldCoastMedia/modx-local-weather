@@ -25,7 +25,7 @@
  */
 
 class LocalWeather {
-	
+
 	// Default configuration
 	public $config = array(
 		'cachelifetime' => 1800,
@@ -43,12 +43,12 @@ class LocalWeather {
 		'rowtpl'        => 'forecast',
 		'tpl'           => 'weather',
 	);
-	
+
 	// MODx caching options
 	public $cache_opts = array(
 		xPDO::OPT_CACHE_KEY => 'includes/elements/localweather',
 	);
-	
+
 	protected $modx      = NULL;
 	protected $namespace = 'localweather.';
 	protected $api_url   = 'http://free.worldweatheronline.com/feed/weather.ashx?';
@@ -76,7 +76,7 @@ class LocalWeather {
 			if(empty($config[$key]) OR $config[$key] === NULL)
 				$config[$key] = $setting->get('value');
 		}
-		
+
 		// Merge snippet parameters and system settings with default config
 		$this->config = array_merge($this->config, $config);
 	}
@@ -86,7 +86,7 @@ class LocalWeather {
 	{
 		$url = $this->build_request_uri(); echo $url;
 		$feed = $this->feed_cache($this->config['cachename'], $this->config['cachelifetime'], $url);
-		
+
 		if($this->valid_feed($feed) === FALSE)
 		{
 			// TODO: Improve error message
@@ -97,7 +97,7 @@ class LocalWeather {
 		{
 			$output = NULL;
 			$feed = json_decode($feed);
-			echo '<pre>';
+
 			// Current weather
 			if($this->config['current'])
 			{
@@ -111,13 +111,13 @@ class LocalWeather {
 				$forecast = $feed->data->weather;
 				$output .= $this->weather_forecast($forecast);
 			}
-			
+
 			if( !empty($this->config['css']))
 			{
 				$stylesheets = $this->prepare_array($this->config['css']);
 				$this->insert_css($stylesheets);
 			}
-			
+
 			return $output;
 		}
 	}
@@ -148,7 +148,7 @@ class LocalWeather {
 			'windspeedKmph'    => $current->windspeedKmph,
 			'windspeedMiles'   => $current->windspeedMiles,
 		);
-		
+
 		print_r($properties);
 		
 		return $this->get_chunk($this->config['tpl'], $properties);
@@ -183,7 +183,7 @@ class LocalWeather {
 				'windspeedKmph'  => $weather->windspeedKmph,
 				'windspeedMiles' => $weather->windspeedMiles,
 			);
-			
+
 			print_r($properties);
 
 			$parsed .= $this->get_chunk($this->config['rowtpl'], $properties);
@@ -201,7 +201,7 @@ class LocalWeather {
 	protected function valid_feed($feed)
 	{
 		$feed = json_decode($feed);
-		
+
 		if(json_last_error() !== JSON_ERROR_NONE)
 		{
 			return FALSE;
@@ -215,7 +215,7 @@ class LocalWeather {
 				{
 					$this->modx->log(modX::LOG_LEVEL_DEBUG, $error->msg);
 				}
-				
+
 				return FALSE;
 			}
 			else
@@ -236,18 +236,18 @@ class LocalWeather {
 	protected function feed_cache($name, $life, $url)
 	{
 		$cachename = ( !empty($name) ) ? $name: $this->modx->resource->get('id');
-		
+
 		if($life > 0)
 		{
 			if(!$cached = $this->modx->cacheManager->get($cachename, $this->cache_opts))
 			{
 				$cached = $this->get_feed($url, $this->config['method']);
-				
+
 				// Only cache valid feeds!
 				if($this->valid_feed($cached))
 					$this->modx->cacheManager->set($cachename, $cached, $life, $this->cache_opts);
 			}
-			
+
 			return $cached;
 		}
 		else
@@ -278,7 +278,7 @@ class LocalWeather {
 				'q'           => $this->config['location'],
 				'format'      => 'json',
 			);
-		
+
 			// Add a country if set
 			if($this->config['country'] !== NULL)
 				$url_params['q'] = sprintf('%s,%s', $url_params['q'], $this->config['country']);
