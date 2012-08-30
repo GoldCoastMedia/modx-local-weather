@@ -27,10 +27,22 @@
  * @copyright   Copyright (c) 2012 Gold Coast Media Ltd
  * @subpackage  lexicon
  * @language    en
+ *
+ * TODO: Improve and simplify descriptions
  */
  
 $_lang['cachelifetime'] = 'The amount of time to cache the weather feed.';
 $_lang['cachename']     = 'The name of the cache feed.';
 $_lang['css']           = 'A comma separated list of CSS files to insert.';
+$_lang['country']       = 'The country to obtain the weather feed for. Not usually required.';
+$_lang['current']       = 'Display the current weather information. Default 1.';
+$_lang['days']          = 'The number of days to use in the weather forecast. 1-5.';
+$_lang['forecast']      = 'Display the weather forecast. Default 1.';
+$_lang['iconurl']       = 'URL path to icons.';
+$_lang['key']           = 'API key when multiple keys are required.';
+$_lang['location']      = 'The location to get weather information for (e.g. London).';
 $_lang['method']        = 'The method used to fetch the the remote feed. cURL or file_get_contents.';
+$_lang['phpdate']       = 'The format string for displaying the date. See http://php.net/manual/en/function.date.php';
+$_lang['rowtpl']        = 'The chunk used for each individual weather forecast.';
+$_lang['tpl']           = 'The chunk used for the current weather.';
 
