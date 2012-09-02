@@ -1,15 +1,21 @@
 Local Weather
 =============
-Version: 1.0-beta (2012-08-25)
+Version: 1.0-beta (2012-09-02)
 Authors: Dan Gibbs <dan@goldcoastmedia.co.uk>
 
-DESCRIPTION / INFO
+Display weather forecasts and information from around the world using the
+free World Weather Online API feed.
+
+The free World Weather Online API is free for both commercial and non-commercial
+use.
+
+You must register for an API key at http://www.worldweatheronline.com/register.aspx
 
 Git repo: https://github.com/GoldCoastMedia/modx-local-weather
 
 Documentation
 -------------
 Full detailed documentation available at: 
-http://www.goldcoastmedia.co.uk/tools/modx-weather/
+http://www.goldcoastmedia.co.uk/tools/modx-local-weather/
 
 Gold Coast Media Ltd
