@@ -31,7 +31,7 @@
  * TODO: Improve and simplify descriptions
  */
  
-$_lang['cachelifetime'] = 'The amount of time to cache the weather feed.';
+$_lang['cachelifetime'] = 'The amount of time to cache the weather feed (in seconds).';
 $_lang['cachename']     = 'The name of the cache feed.';
 $_lang['css']           = 'A comma separated list of CSS files to insert.';
 $_lang['country']       = 'The country to obtain the weather feed for. Not usually required.';
@@ -45,4 +45,19 @@ $_lang['method']        = 'The method used to fetch the the remote feed. cURL or
 $_lang['phpdate']       = 'The format string for displaying the date. See http://php.net/manual/en/function.date.php';
 $_lang['rowtpl']        = 'The chunk used for each individual weather forecast.';
 $_lang['tpl']           = 'The chunk used for the current weather.';
+
+'cachelifetime' => 1800,
+		'cachename'     => NULL,
+		'css'           => 'assets/components/localweather/css/localweather.css',
+		'country'       => NULL,
+		'current'       => TRUE,
+		'days'          => 5,
+		'forecast'      => TRUE,
+		'iconurl'       => '/assets/components/localweather/icons/',
+		'key'           => NULL,
+		'location'      => 'London',
+		'method'        => 'curl',
+		'phpdate'       => 'D',
+		'rowtpl'        => 'forecast',
+		'tpl'           => 'weather',
 

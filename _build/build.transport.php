@@ -20,7 +20,9 @@
  * @package     localweather
  * @subpackage  build
  */
- 
+
+/*ini_set('display_errors', 'on');
+error_reporting(E_ALL);*/
 
 /* Set package info be sure to set all of these */
 define('PKG_NAME','Local Weather');
@@ -35,14 +37,14 @@ define('PKG_CATEGORY','Local Weather');
 $hasAssets = TRUE; /* Transfer the files in the assets dir. */
 $hasCore = TRUE;   /* Transfer the files in the core dir. */
 $hasSnippets = TRUE;
-$hasChunks = true;
+$hasChunks = TRUE;
 $hasTemplates = FALSE;
 $hasResources = FALSE;
 $hasValidator = FALSE; /* Run a validator before installing anything */
-$hasResolver = FALSE; /* Run a resolver after installing everything */
-$hasSetupOptions = FALSE; /* HTML/PHP script to interact with user */
+$hasResolver = TRUE; /* Run a resolver after installing everything */
+$hasSetupOptions = TRUE; /* HTML/PHP script to interact with user */
 $hasMenu = FALSE; /* Add items to the MODx Top Menu */
-$hasSettings = FALSE; /* Add new MODx System Settings */
+$hasSettings = TRUE; /* Add new MODx System Settings */
 
 /* Note: TVs are connected to their templates in the script resolver
  * (see _build/data/resolvers/install.script.php)
@@ -392,9 +394,9 @@ $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
     'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
-    /*'setup-options' => array(
+    'setup-options' => array(
         'source' => $sources['install_options'].'user.input.php',
-    ),*/
+    ),
 ));
 
 /* Last step - zip up the package */
