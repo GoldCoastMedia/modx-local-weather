@@ -1,0 +1,119 @@
+/* Local Weather for MODx default CSS */
+
+#weather_current {
+	position:relative;
+	display:block;
+	background:#f4f4f4;
+	border:1px solid #ddd;
+	border-radius:5px;
+	padding:1%;
+	margin-bottom:1%;
+}
+
+	#weather_now {
+		position:relative;
+		display:inline-block;
+		width:16%;
+		padding:1%;
+		border-right:1px solid #ddd;
+		list-style-type:none;
+	}
+
+	#weather_additional {
+		position:relative;
+		display:inline-block;
+		padding:1%;
+		vertical-align:top;
+		list-style-type:none;
+	}
+
+		#weather_additional li {
+			line-height:1.6em;
+		}
+
+.weather_forecast {
+	position:relative;
+	display:inline-block;
+	margin:0;
+	margin-right:1%;
+	padding:0;
+	padding:1%;
+	list-style-type:none;
+	width:16%;
+	border:1px solid #ddd;
+	border-radius:5px;
+	background:#eee;
+}
+
+.weather_icon {
+	position:relative;
+	margin:auto;
+	width:70px;
+	height:70px;
+}
+
+.weather_day {
+	font-weight:bold;
+	font-size:1.4em;
+	text-align:center;
+	line-height:1.2em;
+}
+
+.weather_condition {
+	color:#555;
+	text-align:center;
+	line-height:1.2em;
+}
+
+.weather_temp {
+	font-weight:bold;
+	color:#111;
+	font-size:1.2em;
+	text-align:center;
+	line-height:1.5em;
+}
+
+.weather_temp_min {
+	color:#555;
+	font-size:0.9em;
+	text-align:center;
+	line-height:1.2em;
+}
+
+	.weather_icon img {
+		position:relative;
+		padding:2px;
+		border:1px solid #ddd;
+		background:#fff;
+	}
+
+.weather_wind_direction {
+	position:relative;
+	margin:auto;
+	font-size:10px;
+	font-weight:bold;
+	color:#fff;
+	width:40px;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	background-image:url("../icons/windroses-dark.png");
+	background-position:-800px 0;
+}
+
+	.weather_wind_direction.dir_S { background-position:0px 0; }
+	.weather_wind_direction.dir_SSW { background-position:-50px 0; }
+	.weather_wind_direction.dir_SW { background-position:-100px 0; }
+	.weather_wind_direction.dir_WSW { background-position:-150px 0; }
+	.weather_wind_direction.dir_W { background-position:-200px 0; }
+	.weather_wind_direction.dir_WNW { background-position:-250px 0; }
+	.weather_wind_direction.dir_NW { background-position:-300px 0; }
+	.weather_wind_direction.dir_NNW { background-position:-350px 0; }
+	.weather_wind_direction.dir_N { background-position:-400px 0; }
+	.weather_wind_direction.dir_NNE { background-position:-450px 0; }
+	.weather_wind_direction.dir_NE { background-position:-500px 0; }
+	.weather_wind_direction.dir_ENE { background-position:-550px 0; }
+	.weather_wind_direction.dir_E { background-position:-600px 0; }
+	.weather_wind_direction.dir_ESE { background-position:-650px 0; }
+	.weather_wind_direction.dir_SE { background-position:-700px 0; }
+	.weather_wind_direction.dir_SSE { background-position:-750px 0; }

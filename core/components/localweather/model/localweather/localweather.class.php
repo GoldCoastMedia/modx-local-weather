@@ -84,7 +84,7 @@ class LocalWeather {
 	// Main snippet execution
 	public function run()
 	{
-		$url = $this->build_request_uri(); echo $url;
+		$url = $this->build_request_uri();
 		$feed = $this->feed_cache($this->config['cachename'], $this->config['cachelifetime'], $url);
 
 		if($this->valid_feed($feed) === FALSE)
@@ -148,9 +148,10 @@ class LocalWeather {
 			'windspeedKmph'    => $current->windspeedKmph,
 			'windspeedMiles'   => $current->windspeedMiles,
 		);
-
-		print_r($properties);
 		
+		$icon_properties = $this->weather_icon($current->weatherIconUrl[0]->value);
+		$properties = array_merge($properties, $icon_properties);
+
 		return $this->get_chunk($this->config['tpl'], $properties);
 	}
 
@@ -183,13 +184,38 @@ class LocalWeather {
 				'windspeedKmph'  => $weather->windspeedKmph,
 				'windspeedMiles' => $weather->windspeedMiles,
 			);
-
-			print_r($properties);
+			
+			$icon_properties = $this->weather_icon($weather->weatherIconUrl[0]->value);
+			$properties = array_merge($properties, $icon_properties);
 
 			$parsed .= $this->get_chunk($this->config['rowtpl'], $properties);
 		}
 
 		return $parsed;
+	}
+	
+	/**
+	 * Get additional icon properties
+	 *
+	 * @param   string  $iconurl the icon url
+	 * @return  array
+	 */
+	protected function weather_icon($iconurl)
+	{
+		$icon = parse_url($iconurl, PHP_URL_PATH);
+		$icon_info = pathinfo($icon);
+		
+		$original = $icon_info['filename'];
+		$condition = explode('_', $original, 3);
+		$condition = $condition[sizeof($condition) - 1];
+		
+		$icon_properties = array(
+			'weatherIconName' => $original,
+			'weatherIconCondition' => $condition,
+			'weatherIconUrlCustom' => $this->config['iconurl'],
+		);
+		
+		return $icon_properties;
 	}
 
 	/**
@@ -204,6 +230,8 @@ class LocalWeather {
 
 		if(json_last_error() !== JSON_ERROR_NONE)
 		{
+			$error = $this->modx->lexicon('localweather.error_parsing_feed');
+			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
 			return FALSE;
 		}
 		else
