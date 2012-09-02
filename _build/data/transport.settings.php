@@ -5,7 +5,7 @@
  * set in a script resolver (see install.script.php).
  */
 
-/*$settings = array();
+$settings = array();
 
 $settings['setting_localweather.key']= $modx->newObject('modSystemSetting');
 $settings['setting_localweather.key']->fromArray(array (
@@ -14,7 +14,7 @@ $settings['setting_localweather.key']->fromArray(array (
 	'value' => '',
 	'namespace' => 'localweather',
 	'area' => 'localweather',
-	'xtype' => 'textfield',
+	'xtype' => 'text-password',
 ), '', true, true);
 
-return $settings;*/
+return $settings;
