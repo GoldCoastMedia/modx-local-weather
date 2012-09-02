@@ -24,7 +24,7 @@
  * @author  Dan Gibbs <dan@goldcoastmedia.co.uk>
  */
 
-require_once $modx->getOption('core_path') . 'components/weather/model/localweather/localweather.class.php';
+require_once $modx->getOption('core_path') . 'components/localweather/model/localweather/localweather.class.php';
 $weather = new LocalWeather($modx, $scriptProperties);
 
 $result = $weather->run();
