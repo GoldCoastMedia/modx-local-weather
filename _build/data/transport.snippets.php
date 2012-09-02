@@ -36,7 +36,7 @@ $snippets = array();
 $snippets[1]= $modx->newObject('modSnippet');
 $snippets[1]->fromArray(array(
     'id' => 1,
-    'name' => 'Local Weather',
+    'name' => 'LocalWeather',
     'description' => 'Local Weather Snippet using the free World Weather Online API',
     'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/localweather.snippet.php'),
 ),'',true,true);
