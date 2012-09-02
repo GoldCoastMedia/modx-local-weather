@@ -35,5 +35,5 @@ $_lang['localweather.error_fetch_feed'] = 'Failed to fetch feed from [[+url]]';
 $_lang['localweather.error_parsing_feed'] = 'Failed to parse and load returned feed.';
 $_lang['localweather.error_feed_failed'] = 'The feed could not get any weather information. Please check and change any parameters that could potentially cause this.';
 
-$_lang['localweather.key'] = 'API Key';
-$_lang['localweather.key_desc'] = 'World Weather Online FREE API key';
+$_lang['setting_localweather.key'] = 'API Key';
+$_lang['setting_localweather.key_desc'] = 'World Weather Online FREE API key';

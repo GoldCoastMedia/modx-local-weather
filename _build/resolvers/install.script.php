@@ -35,14 +35,23 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
 		$apikey = $modx->getOption('wwoapikey', $options);
 		$modx->log(xPDO::LOG_LEVEL_INFO,'Setting API key');
 		
-		$setting = $modx->newObject('modSystemSetting');
-		$setting->set('key', 'localweather.key');
-		$setting->set('description', 'setting_localweather.key_desc');
-		$setting->set('value', $apikey);
-		$setting->set('namespace', 'localweather');
-		$setting->set('area', 'localweather');
-		$setting->set('xtype', 'password');
+		if($setting = $modx->getObject('modSystemSetting', 'localweather.key'))
+		{
+			$setting->set('value', $apikey);
+		}
+		else
+		{
+			$setting = $modx->newObject('modSystemSetting');
+			$setting->set('key', 'localweather.key');
+			$setting->set('description', 'setting_localweather.key_desc');
+			$setting->set('value', $apikey);
+			$setting->set('namespace', 'localweather');
+			$setting->set('area', 'API');
+			$setting->set('xtype', 'text-password');
+		}
+		
 		$setting->save();
+		
 		break;
 
 	/* This code will execute during an upgrade */
