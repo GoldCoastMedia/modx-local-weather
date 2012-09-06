@@ -228,7 +228,13 @@ class LocalWeather {
 	{
 		$feed = json_decode($feed);
 
-		if(json_last_error() !== JSON_ERROR_NONE)
+		if(function_exists('json_last_error')
+		{
+			if(json_last_error() !== JSON_ERROR_NONE)
+				$feed = NULL;
+		}
+
+		if($feed === NULL)
 		{
 			$error = $this->modx->lexicon('localweather.error_parsing_feed');
 			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
