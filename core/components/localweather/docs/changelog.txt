@@ -2,7 +2,8 @@ Changelog for Local Weather (MODx Revolution)
 
 1.0.1-beta
 ==========
-- Added installation checks for PHP 5.3 + cURL
+- Added function check for json_last_error - the only 5.3+ function used
+- Added installation checks for PHP 5.2 + cURL
 
 1.0-beta
 ==========
