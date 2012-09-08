@@ -101,8 +101,9 @@ class LocalWeather {
 			// Current weather
 			if($this->config['current'])
 			{
+				$location = $feed->data->request[0]->query;
 				$current = $feed->data->current_condition[0];
-				$output .= $this->weather_current($current);
+				$output .= $this->weather_current($current, $location);
 			}
 
 			// Weather forecast
@@ -128,12 +129,13 @@ class LocalWeather {
 	 * @param   object       $current  feed current weather JSON object
 	 * @return  NULL|string
 	 */
-	protected function weather_current($current)
+	protected function weather_current($current, $location = NULL)
 	{
 		$properties = array(
 			'day'                => date($this->config['phpdate']),
 			'cloudcover'         => $current->cloudcover,
 			'humidity'           => $current->humidity,
+			'location'           => $location,
 			'observation_time'   => $current->observation_time,
 			'precipMM'           => $current->precipMM,
 			'pressure'           => $current->pressure,
@@ -231,7 +233,7 @@ class LocalWeather {
 	{
 		$feed = json_decode($feed);
 
-		if(function_exists('json_last_error')
+		if(function_exists('json_last_error'))
 		{
 			if(json_last_error() !== JSON_ERROR_NONE)
 				$feed = NULL;

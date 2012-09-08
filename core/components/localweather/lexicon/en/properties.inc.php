@@ -46,18 +46,3 @@ $_lang['phpdate']       = 'The format string for displaying the date. See http:/
 $_lang['rowtpl']        = 'The chunk used for each individual weather forecast.';
 $_lang['tpl']           = 'The chunk used for the current weather.';
 
-'cachelifetime' => 1800,
-		'cachename'     => NULL,
-		'css'           => 'assets/components/localweather/css/localweather.css',
-		'country'       => NULL,
-		'current'       => TRUE,
-		'days'          => 5,
-		'forecast'      => TRUE,
-		'iconurl'       => '/assets/components/localweather/icons/',
-		'key'           => NULL,
-		'location'      => 'London',
-		'method'        => 'curl',
-		'phpdate'       => 'D',
-		'rowtpl'        => 'forecast',
-		'tpl'           => 'weather',
-

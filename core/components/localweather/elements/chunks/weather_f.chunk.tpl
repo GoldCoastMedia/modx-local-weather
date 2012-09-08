@@ -8,6 +8,7 @@
 	</ul>
 
 	<ul id="weather_additional">
+		<li>Location: [[+location]]</li>
 		<li>Humidity: [[+humidity]]%</li>
 		<li>Visibility: [[+visibility]]km</li>
 		<li>Pressure (Millibars): [[+pressure]]</li>

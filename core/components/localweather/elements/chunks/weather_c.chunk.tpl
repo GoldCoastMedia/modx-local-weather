@@ -8,8 +8,9 @@
 	</ul>
 
 	<ul id="weather_additional">
+		<li>Location: [[+location]]</li>
 		<li>Humidity: [[+humidity]]%</li>
-		<li>Visibility: [[+visibilityM]]miles</li>
+		<li>Visibility: [[+visibilityMiles]] miles</li>
 		<li>Pressure (Millibars): [[+pressure]]</li>
 		<li>Wind Direction: [[+winddir16Point]] ([[+winddirDegree]]&deg;)</li>
 		<li>Wind Speed: [[+windspeedMiles]]mph</li>

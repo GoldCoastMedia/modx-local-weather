@@ -35,7 +35,7 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
 		$success = true;
 
 		// Check PHP 5.3+
-		if (version_compare(PHP_VERSION, '5.2.0', '<') {
+		if (version_compare(PHP_VERSION, '5.2.0', '<')) {
 			$modx->log(xPDO::LOG_LEVEL_ERROR, 'This package currently requires at least PHP 5.2.');
 			$success = false;
 		}

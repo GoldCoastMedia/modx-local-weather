@@ -2,9 +2,10 @@ Changelog for Local Weather (MODx Revolution)
 
 1.0.1-beta
 ==========
+- Added location placeholder to show the resolved location
 - Added visibilityMiles placeholder to show visibility in miles
-- Added localisation support for weather descriptions. LOOKING FOR TRANSLATORS!
-- Added extra chunks for degrees fahrenheit and Kmph measurements
+- Added localisation support for weather descriptions. Please translate.
+- Added extra chunks for degrees fahrenheit and metric measurements
 - Added extra system settings that can be used as default values for feeds
 - Added function check for json_last_error - the only 5.3+ function used
 - Added installation checks for PHP 5.2 + cURL

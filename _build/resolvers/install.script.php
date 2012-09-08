@@ -37,7 +37,11 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
 		
 		if($setting = $modx->getObject('modSystemSetting', 'localweather.key'))
 		{
-			$setting->set('value', $apikey);
+			if(!empty($apikey))
+			{
+				$setting->set('value', $apikey);
+				$setting->save();
+			}
 		}
 		else
 		{
@@ -48,9 +52,9 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
 			$setting->set('namespace', 'localweather');
 			$setting->set('area', 'API');
 			$setting->set('xtype', 'text-password');
+			$setting->save();
 		}
 		
-		$setting->save();
 		
 		break;
 

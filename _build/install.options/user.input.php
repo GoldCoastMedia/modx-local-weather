@@ -22,11 +22,14 @@
  * @author      Dan Gibbs <dan@goldcoastmedia.co.uk>
  */
 
+
 $output = '
 <p>Please enter your <strong>World Weather Online - Free Weather API Key</strong>.</p>
 <br />
 <p><small>If you do not have one you can 
 register for one at <a href="http://www.worldweatheronline.com/register.aspx">http://www.worldweatheronline.com/register.aspx</a>.</small></p>
+<br />
+<p><small><strong>NOTE: If you are upgrading and already have a key you can leave this blank.</strong></small></p>
 <br />
 <label for="wwoapikey">API Key</label>
 <input type="text" name="wwoapikey" id="wwoapikey" value="" align="left" size="40" maxlength="44" />
