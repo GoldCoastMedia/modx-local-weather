@@ -40,8 +40,8 @@ class LocalWeather {
 		'location'      => 'London',
 		'method'        => 'curl',
 		'phpdate'       => 'D',
-		'rowtpl'        => 'forecast',
-		'tpl'           => 'weather',
+		'rowtpl'        => 'forecast_c',
+		'tpl'           => 'weather_c',
 	);
 
 	// MODx caching options
@@ -131,22 +131,24 @@ class LocalWeather {
 	protected function weather_current($current)
 	{
 		$properties = array(
-			'day'              => date($this->config['phpdate']),
-			'cloudcover'       => $current->cloudcover,
-			'humidity'         => $current->humidity,
-			'observation_time' => $current->observation_time,
-			'precipMM'         => $current->precipMM,
-			'pressure'         => $current->pressure,
-			'temp_C'           => $current->temp_C,
-			'temp_F'           => $current->temp_F,
-			'visibility'       => $current->visibility,
-			'weatherCode'      => $current->weatherCode,
-			'weatherDesc'      => $current->weatherDesc[0]->value,
-			'weatherIconUrl'   => $current->weatherIconUrl[0]->value,
-			'winddir16Point'   => $current->winddir16Point,
-			'winddirDegree'    => $current->winddirDegree,
-			'windspeedKmph'    => $current->windspeedKmph,
-			'windspeedMiles'   => $current->windspeedMiles,
+			'day'                => date($this->config['phpdate']),
+			'cloudcover'         => $current->cloudcover,
+			'humidity'           => $current->humidity,
+			'observation_time'   => $current->observation_time,
+			'precipMM'           => $current->precipMM,
+			'pressure'           => $current->pressure,
+			'temp_C'             => $current->temp_C,
+			'temp_F'             => $current->temp_F,
+			'visibility'         => $current->visibility,
+			'visibilityMiles'    => $this->miles($current->visibility),
+			'weatherCode'        => $current->weatherCode,
+			'weatherDesc'        => $this->modx->lexicon('localweather.condition_' . $current->weatherCode),
+			'weatherDescDefault' => $current->weatherDesc[0]->value,
+			'weatherIconUrl'     => $current->weatherIconUrl[0]->value,
+			'winddir16Point'     => $current->winddir16Point,
+			'winddirDegree'      => $current->winddirDegree,
+			'windspeedKmph'      => $current->windspeedKmph,
+			'windspeedMiles'     => $current->windspeedMiles,
 		);
 		
 		$icon_properties = $this->weather_icon($current->weatherIconUrl[0]->value);
@@ -168,21 +170,22 @@ class LocalWeather {
 		foreach($forecast as $key => $weather)
 		{
 			$properties = array(
-				'day'            => date($this->config['phpdate'], strtotime($weather->date)),
-				'date'           => $weather->date,
-				'precipMM'       => $weather->precipMM,
-				'tempMaxC'       => $weather->tempMaxC,
-				'tempMaxF'       => $weather->tempMaxF,
-				'tempMinC'       => $weather->tempMinC,
-				'tempMinF'       => $weather->tempMinF,
-				'weatherCode'    => $weather->weatherCode,
-				'weatherDesc'    => $weather->weatherDesc[0]->value,
-				'weatherIconUrl' => $weather->weatherIconUrl[0]->value,
-				'winddir16Point' => $weather->winddir16Point,
-				'winddirDegree'  => $weather->winddirDegree,
-				'winddirection'  => $weather->winddirection,
-				'windspeedKmph'  => $weather->windspeedKmph,
-				'windspeedMiles' => $weather->windspeedMiles,
+				'day'                => date($this->config['phpdate'], strtotime($weather->date)),
+				'date'               => $weather->date,
+				'precipMM'           => $weather->precipMM,
+				'tempMaxC'           => $weather->tempMaxC,
+				'tempMaxF'           => $weather->tempMaxF,
+				'tempMinC'           => $weather->tempMinC,
+				'tempMinF'           => $weather->tempMinF,
+				'weatherCode'        => $weather->weatherCode,
+				'weatherDesc'        => $weather->weatherDesc[0]->value,
+				'weatherDescDefault' => $this->modx->lexicon('localweather.condition_' . $weather->weatherCode),
+				'weatherIconUrl'     => $weather->weatherIconUrl[0]->value,
+				'winddir16Point'     => $weather->winddir16Point,
+				'winddirDegree'      => $weather->winddirDegree,
+				'winddirection'      => $weather->winddirection,
+				'windspeedKmph'      => $weather->windspeedKmph,
+				'windspeedMiles'     => $weather->windspeedMiles,
 			);
 			
 			$icon_properties = $this->weather_icon($weather->weatherIconUrl[0]->value);
@@ -374,6 +377,17 @@ class LocalWeather {
 		return $feed;
 	}
 
+	/**
+	 * Convert km to miles
+	 *
+	 * @param   int  $km
+	 * @return  int  mi
+	 */
+	protected function miles($km, $precision = 0)
+	{
+		return round($km * 0.621371192, (int) $precision);
+	}
+	
 	/**
 	 * Get a MODx chunk
 	 *

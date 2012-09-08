@@ -17,4 +17,24 @@ $settings['setting_localweather.key']->fromArray(array (
 	'xtype' => 'text-password',
 ), '', true, true);
 
+$settings['setting_localweather.cachelifetime']= $modx->newObject('modSystemSetting');
+$settings['setting_localweather.cachelifetime']->fromArray(array (
+	'key' => 'localweather.cachelifetime',
+	'description' => 'setting_localweather.cachelifetime_desc',
+	'value' => '1800',
+	'namespace' => 'localweather',
+	'area' => 'localweather',
+	'xtype' => 'textfield',
+), '', true, true);
+
+$settings['setting_localweather.country']= $modx->newObject('modSystemSetting');
+$settings['setting_localweather.country']->fromArray(array (
+	'key' => 'localweather.country',
+	'description' => 'setting_localweather.country_desc',
+	'value' => 'UK',
+	'namespace' => 'localweather',
+	'area' => 'localweather',
+	'xtype' => 'textfield',
+), '', true, true);
+
 return $settings;
