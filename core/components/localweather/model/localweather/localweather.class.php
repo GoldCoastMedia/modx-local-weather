@@ -41,7 +41,7 @@ class LocalWeather {
 		'method'        => 'curl',
 		'phpdate'       => 'D',
 		'rowtpl'        => 'forecast_c',
-		'timeout'       => 10,
+		'timeout'       => 5,
 		'tpl'           => 'weather_c',
 	);
 
@@ -336,7 +336,7 @@ class LocalWeather {
 	 * @param   string  $method  The method used to fetch the feed
 	 * @return  bool
 	 */
-	protected function get_feed($url = NULL, $method = NULL, $timeout = 10)
+	protected function get_feed($url = NULL, $method = NULL, $timeout = 5)
 	{
 		if( !is_null($url) )
 		{
@@ -358,7 +358,7 @@ class LocalWeather {
 	* @param   int     $timeout
 	* @return  string  Returns XML
 	*/
-	protected function fetch_curl($url, $timeout = 10)
+	protected function fetch_curl($url, $timeout = 5)
 	{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -378,7 +378,7 @@ class LocalWeather {
 	* @param   int     $timeout
 	* @return  string  Returns XML
 	*/
-	protected function fetch_file_get_contents($url, $timeout = 10)
+	protected function fetch_file_get_contents($url, $timeout = 5)
 	{
 		$sc = stream_context_create(array('http' => array('timeout' => (int) $timeout)));
 		$feed = file_get_contents($url, FALSE, $sc);
