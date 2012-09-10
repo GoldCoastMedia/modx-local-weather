@@ -284,7 +284,7 @@ class LocalWeather {
 				$cached = $this->get_feed($url, $this->config['method'], $this->config['timeout']);
 
 				// Only cache valid feeds!
-				if($this->valid_feed($cached))
+				if($this->valid_feed($cached) AND $cached !== NULL)
 					$this->modx->cacheManager->set($cachename, $cached, $life, $this->cache_opts);
 			}
 

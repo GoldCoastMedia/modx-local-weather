@@ -1,5 +1,11 @@
 Changelog for Local Weather (MODx Revolution)
 
+1.0.2-beta
+========== 
+- Fixed NULL being cached when problems with an API request occurs
+- Added a default timeout system setting for API requests to prevent hanging
+- Added timeout snippet parameter for API requests to prevent hanging
+
 1.0.1-beta
 ==========
 - Added location placeholder to show the resolved location
