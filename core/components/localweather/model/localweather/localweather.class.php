@@ -232,15 +232,15 @@ class LocalWeather {
 	 */
 	protected function valid_feed($feed)
 	{
-		$feed = json_decode($feed);
+		$json_feed = json_decode($feed);
 
 		if(function_exists('json_last_error'))
 		{
 			if(json_last_error() !== JSON_ERROR_NONE)
-				$feed = NULL;
+				$json_feed = NULL;
 		}
 
-		if($feed === NULL)
+		if($feed === NULL OR $json_feed === NULL)
 		{
 			$error = $this->modx->lexicon('localweather.error_parsing_feed');
 			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
@@ -249,9 +249,9 @@ class LocalWeather {
 		else
 		{
 			// Check for feed based errors
-			if(property_exists($feed->data, 'error'))
+			if(property_exists($json_feed->data, 'error'))
 			{
-				foreach($feed->data->error as $error)
+				foreach($json_feed->data->error as $error)
 				{
 					$this->modx->log(modX::LOG_LEVEL_DEBUG, $error->msg);
 				}
