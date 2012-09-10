@@ -37,4 +37,14 @@ $settings['setting_localweather.country']->fromArray(array (
 	'xtype' => 'textfield',
 ), '', true, true);
 
+$settings['setting_localweather.timeout']= $modx->newObject('modSystemSetting');
+$settings['setting_localweather.timeout']->fromArray(array (
+	'key' => 'localweather.timeout',
+	'description' => 'setting_localweather.timeout_desc',
+	'value' => 10,
+	'namespace' => 'localweather',
+	'area' => 'localweather',
+	'xtype' => 'textfield',
+), '', true, true);
+
 return $settings;

@@ -43,6 +43,8 @@ $_lang['setting_localweather.cachelifetime'] = 'Cache Lifetime';
 $_lang['setting_localweather.cachelifetime_desc'] = 'The default cache lifetime for each weather feed. Snippets can overwrite this.';
 $_lang['setting_localweather.country'] = 'Country';
 $_lang['setting_localweather.country_desc'] = 'The default country for each weather feed. Snippets can overwrite this.';
+$_lang['setting_localweather.timeout'] = 'Connection Timeout';
+$_lang['setting_localweather.timeout_desc'] = 'The maximum connection time for an API request connection.';
 
 /* Weather Conditions */
 
