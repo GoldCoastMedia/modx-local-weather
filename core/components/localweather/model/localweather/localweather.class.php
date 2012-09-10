@@ -41,6 +41,7 @@ class LocalWeather {
 		'method'        => 'curl',
 		'phpdate'       => 'D',
 		'rowtpl'        => 'forecast_c',
+		'timeout'       => 10,
 		'tpl'           => 'weather_c',
 	);
 
@@ -280,7 +281,7 @@ class LocalWeather {
 		{
 			if(!$cached = $this->modx->cacheManager->get($cachename, $this->cache_opts))
 			{
-				$cached = $this->get_feed($url, $this->config['method']);
+				$cached = $this->get_feed($url, $this->config['method'], $this->config['timeout']);
 
 				// Only cache valid feeds!
 				if($this->valid_feed($cached))
@@ -291,7 +292,7 @@ class LocalWeather {
 		}
 		else
 		{
-			return $this->get_feed($url, $this->config['method']);
+			return $this->get_feed($url, $this->config['method'], $this->config['timeout']);
 		}
 	}
 
@@ -335,12 +336,12 @@ class LocalWeather {
 	 * @param   string  $method  The method used to fetch the feed
 	 * @return  bool
 	 */
-	protected function get_feed($url = NULL, $method = NULL)
+	protected function get_feed($url = NULL, $method = NULL, $timeout = 10)
 	{
 		if( !is_null($url) )
 		{
 			$method = strtolower('fetch_' . $method);
-			return $this->$method($url);
+			return $this->$method($url, $timeout);
 		}
 		else
 		{
@@ -353,14 +354,17 @@ class LocalWeather {
 	/**
 	* Fetch feed via cURL.
 	*
+	* @param   string  $url
+	* @param   int     $timeout
 	* @return  string  Returns XML
 	*/
-	protected function fetch_curl($url)
+	protected function fetch_curl($url, $timeout = 10)
 	{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 		$feed = curl_exec($ch);
 		curl_close($ch);
 
@@ -370,12 +374,14 @@ class LocalWeather {
 	/**
 	* Returns remote feed via file_get_contents function.
 	*
-	* @access  protected
-	* @return  string     Returns XML
+	* @param   string  $url
+	* @param   int     $timeout
+	* @return  string  Returns XML
 	*/
-	protected function fetch_file_get_contents($url)
+	protected function fetch_file_get_contents($url, $timeout = 10)
 	{
-		$feed = file_get_contents($url);
+		$sc = stream_context_create(array('http' => array('timeout' => (int) $timeout)));
+		$feed = file_get_contents($url, FALSE, $sc);
 		return $feed;
 	}
 
