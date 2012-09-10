@@ -13,7 +13,7 @@ $settings['setting_localweather.key']->fromArray(array (
 	'description' => 'setting_localweather.key_desc',
 	'value' => '',
 	'namespace' => 'localweather',
-	'area' => 'localweather',
+	'area' => 'API',
 	'xtype' => 'text-password',
 ), '', true, true);
 
@@ -23,7 +23,7 @@ $settings['setting_localweather.cachelifetime']->fromArray(array (
 	'description' => 'setting_localweather.cachelifetime_desc',
 	'value' => '1800',
 	'namespace' => 'localweather',
-	'area' => 'localweather',
+	'area' => 'Caching',
 	'xtype' => 'textfield',
 ), '', true, true);
 
@@ -33,7 +33,7 @@ $settings['setting_localweather.country']->fromArray(array (
 	'description' => 'setting_localweather.country_desc',
 	'value' => 'UK',
 	'namespace' => 'localweather',
-	'area' => 'localweather',
+	'area' => 'API',
 	'xtype' => 'textfield',
 ), '', true, true);
 
@@ -43,7 +43,7 @@ $settings['setting_localweather.timeout']->fromArray(array (
 	'description' => 'setting_localweather.timeout_desc',
 	'value' => 10,
 	'namespace' => 'localweather',
-	'area' => 'localweather',
+	'area' => 'API',
 	'xtype' => 'textfield',
 ), '', true, true);
 
