@@ -47,4 +47,14 @@ $settings['setting_localweather.timeout']->fromArray(array (
 	'xtype' => 'textfield',
 ), '', true, true);
 
+$settings['setting_localweather.debug']= $modx->newObject('modSystemSetting');
+$settings['setting_localweather.debug']->fromArray(array (
+	'key' => 'localweather.debug',
+	'description' => 'setting_localweather.debug_desc',
+	'value' => 0,
+	'namespace' => 'localweather',
+	'area' => 'API',
+	'xtype' => 'combo-boolean',
+), '', true, true);
+
 return $settings;

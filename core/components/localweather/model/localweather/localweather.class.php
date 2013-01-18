@@ -57,7 +57,6 @@ class LocalWeather {
 	public function __construct(modX &$modx, array &$config)
 	{
 		$this->modx =& $modx;
-		$this->modx->setLogLevel(modX::LOG_LEVEL_DEBUG);
 		$this->modx->lexicon->load('localweather:default');
 
 		// Force all parameters to lowercase
@@ -80,6 +79,10 @@ class LocalWeather {
 
 		// Merge snippet parameters and system settings with default config
 		$this->config = array_merge($this->config, $config);
+
+		// Enable debugging
+		if($this->config['debug'])
+			$this->modx->setLogLevel(modX::LOG_LEVEL_DEBUG);
 	}
 
 	// Main snippet execution
@@ -92,7 +95,7 @@ class LocalWeather {
 		{
 			// TODO: Improve error message
 			$error = $this->modx->lexicon('localweather.error_feed_failed');
-			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
+			$this->modx->log(modX::LOG_LEVEL_ERROR, $error);
 		}
 		else
 		{
@@ -243,7 +246,7 @@ class LocalWeather {
 		if($feed === NULL OR $json_feed === NULL)
 		{
 			$error = $this->modx->lexicon('localweather.error_parsing_feed');
-			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
+			$this->modx->log(modX::LOG_LEVEL_ERROR, $error);
 			return FALSE;
 		}
 		else
@@ -253,7 +256,7 @@ class LocalWeather {
 			{
 				foreach($json_feed->data->error as $error)
 				{
-					$this->modx->log(modX::LOG_LEVEL_DEBUG, $error->msg);
+					$this->modx->log(modX::LOG_LEVEL_ERROR, $error->msg);
 				}
 
 				return FALSE;
@@ -306,7 +309,7 @@ class LocalWeather {
 		if(empty($this->config['key']) OR $this->config['key'] === NULL)
 		{
 			$error = $this->modx->lexicon('localweather.no_key');
-			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
+			$this->modx->log(modX::LOG_LEVEL_ERROR, $error);
 			return FALSE;
 		}
 		else
@@ -346,7 +349,7 @@ class LocalWeather {
 		else
 		{
 			$error = $this->modx->lexicon('localweather.error_fetch_feed', array('url', $url));
-			$this->modx->log(modX::LOG_LEVEL_DEBUG, $error);
+			$this->modx->log(modX::LOG_LEVEL_ERROR, $error);
 			return FALSE;
 		}
 	}

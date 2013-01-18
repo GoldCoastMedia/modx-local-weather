@@ -1,5 +1,10 @@
 Changelog for Local Weather (MODx Revolution)
 
+1.0.3-beta
+========== 
+- Removed debugging by default
+- Added a system setting to enable/disable debugging
+
 1.0.2-beta
 ========== 
 - Fixed NULL being cached when problems with an API request occurs

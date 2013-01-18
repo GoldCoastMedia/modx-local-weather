@@ -1,6 +1,6 @@
 Local Weather
 =============
-Version: 1.0.2-beta (2012-09-10)
+Version: 1.0.3-beta (2013-01-18)
 Authors: Dan Gibbs <dan@goldcoastmedia.co.uk>
 
 Display weather forecasts and information from around the world using the
