@@ -39,7 +39,7 @@ class LocalWeather {
 		'key'           => NULL,
 		'location'      => 'London',
 		'method'        => 'curl',
-		'phpdate'       => 'D',
+		'phpdate'       => '%a',
 		'rowtpl'        => 'forecast_c',
 		'timeout'       => 5,
 		'tpl'           => 'weather_c',
@@ -136,7 +136,7 @@ class LocalWeather {
 	protected function weather_current($current, $location = NULL)
 	{
 		$properties = array(
-			'day'                => date($this->config['phpdate']),
+			'day'                => strftime($this->config['phpdate']),
 			'cloudcover'         => $current->cloudcover,
 			'humidity'           => $current->humidity,
 			'location'           => $location,
@@ -176,7 +176,7 @@ class LocalWeather {
 		foreach($forecast as $key => $weather)
 		{
 			$properties = array(
-				'day'                => date($this->config['phpdate'], strtotime($weather->date)),
+				'day'                => strftime($this->config['phpdate'], strtotime($weather->date)),
 				'date'               => $weather->date,
 				'precipMM'           => $weather->precipMM,
 				'tempMaxC'           => $weather->tempMaxC,
@@ -184,8 +184,8 @@ class LocalWeather {
 				'tempMinC'           => $weather->tempMinC,
 				'tempMinF'           => $weather->tempMinF,
 				'weatherCode'        => $weather->weatherCode,
-				'weatherDesc'        => $weather->weatherDesc[0]->value,
-				'weatherDescDefault' => $this->modx->lexicon('localweather.condition_' . $weather->weatherCode),
+				'weatherDesc'        => $this->modx->lexicon('localweather.condition_' . $weather->weatherCode),
+				'weatherDescDefault' => $weather->weatherDesc[0]->value,
 				'weatherIconUrl'     => $weather->weatherIconUrl[0]->value,
 				'winddir16Point'     => $weather->winddir16Point,
 				'winddirDegree'      => $weather->winddirDegree,

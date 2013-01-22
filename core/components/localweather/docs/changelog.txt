@@ -1,5 +1,11 @@
 Changelog for Local Weather (MODx Revolution)
 
+1.0.4-beta
+========== 
+- Fixed incorrect weather condition being used (lexicon now used for [[+weatherDesc]])
+- Now uses strftime for better locale support on dates
+
+
 1.0.3-beta
 ========== 
 - Removed debugging by default
