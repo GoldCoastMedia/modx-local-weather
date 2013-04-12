@@ -26,38 +26,21 @@ $chunks = array();
 
 $chunks[1]= $modx->newObject('modChunk');
 $chunks[1]->fromArray(array(
-    'id' => 1,
-    'name' => 'weather_c',
-    'description' => 'Current Weather (C)',
-    'snippet' => file_get_contents($sources['source_core'].'/elements/chunks/weather_c.chunk.tpl'),
-    'properties' => '',
-),'',true,true);
+	'id' => 1,
+	'name' => 'localweather_current',
+	'description' => 'The current weather template chunk',
+	'snippet' => file_get_contents($sources['source_core'].'/elements/chunks/localweather_current.chunk.tpl'),
+	'properties' => '',
+),'', TRUE, TRUE);
 
 $chunks[2]= $modx->newObject('modChunk');
 $chunks[2]->fromArray(array(
-    'id' => 2,
-    'name' => 'forecast_c',
-    'description' => 'Weather Forecast Item (row in C)',
-    'snippet' => file_get_contents($sources['source_core'].'/elements/chunks/forecast_c.chunk.tpl'),
-    'properties' => '',
-),'',true,true);
+	'id' => 2,
+	'name' => 'localweather_forecast',
+	'description' => 'Weather forecast row chunk',
+	'snippet' => file_get_contents($sources['source_core'].'/elements/chunks/localweather_forecast.chunk.tpl'),
+	'properties' => '',
+),'', TRUE, TRUE);
 
-$chunks[3]= $modx->newObject('modChunk');
-$chunks[3]->fromArray(array(
-    'id' => 1,
-    'name' => 'weather_f',
-    'description' => 'Current Weather (F)',
-    'snippet' => file_get_contents($sources['source_core'].'/elements/chunks/weather_f.chunk.tpl'),
-    'properties' => '',
-),'',true,true);
-
-$chunks[4]= $modx->newObject('modChunk');
-$chunks[4]->fromArray(array(
-    'id' => 4,
-    'name' => 'forecast_f',
-    'description' => 'Weather Forecast Item (row in F)',
-    'snippet' => file_get_contents($sources['source_core'].'/elements/chunks/forecast_f.chunk.tpl'),
-    'properties' => '',
-),'',true,true);
 
 return $chunks;

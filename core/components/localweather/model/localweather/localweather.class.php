@@ -28,21 +28,24 @@ class LocalWeather {
 
 	// Default configuration
 	public $config = array(
+		'basecss'       => '/assets/components/localweather/css/base.css',
 		'cachelifetime' => 1800,
 		'cachename'     => NULL,
-		'css'           => 'assets/components/localweather/css/localweather.css',
+		'css'           => NULL,
 		'country'       => NULL,
 		'current'       => TRUE,
 		'days'          => 5,
 		'forecast'      => TRUE,
-		'iconurl'       => '/assets/components/localweather/icons/',
+		'iconurl'       => '/assets/components/localweather/icons/default/',
 		'key'           => NULL,
 		'location'      => 'London',
 		'method'        => 'curl',
 		'phpdate'       => '%a',
-		'rowtpl'        => 'forecast_c',
+		'rowtpl'        => 'localweather_forecast',
+		'theme'         => 'default',
+		'themeurl'      => NULL,
 		'timeout'       => 5,
-		'tpl'           => 'weather_c',
+		'tpl'           => 'localweather_weather',
 	);
 
 	// MODx caching options
@@ -52,7 +55,7 @@ class LocalWeather {
 
 	protected $modx      = NULL;
 	protected $namespace = 'localweather.';
-	protected $api_url   = 'http://free.worldweatheronline.com/feed/weather.ashx?';
+	protected $api_url = 'http://api.worldweatheronline.com/free/v1/tz.ashx?';
 
 	public function __construct(modX &$modx, array &$config)
 	{
@@ -63,9 +66,9 @@ class LocalWeather {
 		$config = array_change_key_case($config, CASE_LOWER);
 
 		// Get MODx Manager settings
-		$settings = $this->modx->newQuery('modSystemSetting')->where(
-			array('key:LIKE' => $this->namespace . '%')
-		);
+		$settings = $this->modx->newQuery('modSystemSetting')->where(array(
+			'key:LIKE' => $this->namespace . '%'
+		));
 		$settings = $this->modx->getCollection('modSystemSetting', $settings);
 		
 		// Apply MODx manager settings
@@ -73,8 +76,9 @@ class LocalWeather {
 			$key = str_replace($this->namespace, '', $key);
 
 			// Don't overwrite snippet params
-			if(empty($config[$key]) OR $config[$key] === NULL)
+			if(empty($config[$key]) OR $config[$key] === NULL) {
 				$config[$key] = $setting->get('value');
+			}
 		}
 
 		// Merge snippet parameters and system settings with default config
@@ -117,11 +121,20 @@ class LocalWeather {
 				$output .= $this->weather_forecast($forecast);
 			}
 
-			if( !empty($this->config['css']))
+			// Add base CSS
+			$this->config['css'] = array_filter(array_merge(
+				$this->config['css'],
+				$this->config['basecss']
+			));
+			
+			if($this->config['css'])
 			{
 				$stylesheets = $this->prepare_array($this->config['css']);
 				$this->insert_css($stylesheets);
 			}
+			
+			// TODO: Add theme CSS
+			//$this->theme( $this->theme, $this->themeurl );
 
 			return $output;
 		}
@@ -145,6 +158,7 @@ class LocalWeather {
 			'pressure'           => $current->pressure,
 			'temp_C'             => $current->temp_C,
 			'temp_F'             => $current->temp_F,
+			'theme'              => $this->config['theme'],
 			'visibility'         => $current->visibility,
 			'visibilityMiles'    => $this->miles($current->visibility),
 			'weatherCode'        => $current->weatherCode,
@@ -183,6 +197,7 @@ class LocalWeather {
 				'tempMaxF'           => $weather->tempMaxF,
 				'tempMinC'           => $weather->tempMinC,
 				'tempMinF'           => $weather->tempMinF,
+				'theme'              => $this->config['theme'],
 				'weatherCode'        => $weather->weatherCode,
 				'weatherDesc'        => $this->modx->lexicon('localweather.condition_' . $weather->weatherCode),
 				'weatherDescDefault' => $weather->weatherDesc[0]->value,
@@ -219,7 +234,7 @@ class LocalWeather {
 		$condition = $condition[sizeof($condition) - 1];
 		
 		$icon_properties = array(
-			'weatherIconName' => $original,
+			'weatherIconName'      => $original,
 			'weatherIconCondition' => $condition,
 			'weatherIconUrlCustom' => $this->config['iconurl'],
 		);
@@ -386,6 +401,17 @@ class LocalWeather {
 		$sc = stream_context_create(array('http' => array('timeout' => (int) $timeout)));
 		$feed = file_get_contents($url, FALSE, $sc);
 		return $feed;
+	}
+	
+	/**
+	 * Theme
+	 *
+	 * @param   string  $name   Theme name
+	 * @param   string  $url    Theme URL
+	 */
+	protected function theme($theme = NULL, $url = NULL)
+	{
+		// TODO: 
 	}
 
 	/**

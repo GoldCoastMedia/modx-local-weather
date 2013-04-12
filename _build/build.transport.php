@@ -27,8 +27,8 @@ error_reporting(E_ALL);*/
 /* Set package info be sure to set all of these */
 define('PKG_NAME','Local Weather');
 define('PKG_NAME_LOWER','localweather');
-define('PKG_VERSION','1.0.3');
-define('PKG_RELEASE','beta');
+define('PKG_VERSION','1.0.5');
+define('PKG_RELEASE','rc1');
 define('PKG_CATEGORY','Local Weather');
 
 /* Set package options - you can turn these on one-by-one

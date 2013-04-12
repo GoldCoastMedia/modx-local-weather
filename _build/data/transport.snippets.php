@@ -40,9 +40,9 @@ $snippets[1]->fromArray(array(
     'description' => 'Local Weather Snippet using the free World Weather Online API',
     'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/localweather.snippet.php'),
 ),'',true,true);
-//$properties = include $sources['data'].'/properties/properties.mysnippet1.php';
-//$snippets[1]->setProperties($properties);
-//unset($properties);
+$properties = include $sources['data'].'/properties/properties.localweather.php';
+$snippets[1]->setProperties($properties);
+unset($properties);
 
 
 return $snippets;

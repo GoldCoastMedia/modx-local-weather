@@ -1,10 +1,19 @@
 Changelog for Local Weather (MODx Revolution)
 
+1.0.5-rc1
+=========
+- Updated to new API.
+- Added 'oxygen' and 'tick' themes including both elements and sprites
+- Added 'basecss' token to disable default styling
+- Renamed and updated default chunks
+- Separated base CSS from icons allowing for icon theming
+- Added 'theme' and 'themeurl' tokens
+- Fixed default property set for snippet
+
 1.0.4-beta
 ========== 
 - Fixed incorrect weather condition being used (lexicon now used for [[+weatherDesc]])
 - Now uses strftime for better locale support on dates
-
 
 1.0.3-beta
 ========== 
