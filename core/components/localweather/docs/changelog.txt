@@ -8,7 +8,8 @@ Changelog for Local Weather (MODx Revolution)
 - Renamed and updated default chunks
 - Separated base CSS from icons allowing for icon theming
 - Added 'theme' and 'themeurl' tokens
-- Fixed default property set for snippet
+- Added default property set for snippet
+- Added default properties for chunks
 
 1.0.4-beta
 ========== 

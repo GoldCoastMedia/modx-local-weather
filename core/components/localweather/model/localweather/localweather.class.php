@@ -28,7 +28,7 @@ class LocalWeather {
 
 	// Default configuration
 	public $config = array(
-		'basecss'       => '/assets/components/localweather/css/base.css',
+		'basecss'       => '{MODX_ASSETS_URL}localweather/css/base.css',
 		'cachelifetime' => 1800,
 		'cachename'     => NULL,
 		'css'           => NULL,
@@ -36,7 +36,7 @@ class LocalWeather {
 		'current'       => TRUE,
 		'days'          => 5,
 		'forecast'      => TRUE,
-		'iconurl'       => '/assets/components/localweather/icons/default/',
+		'iconurl'       => '{MODX_ASSETS_URL}localweather/icons/default/',
 		'key'           => NULL,
 		'location'      => 'London',
 		'method'        => 'curl',
@@ -55,7 +55,7 @@ class LocalWeather {
 
 	protected $modx      = NULL;
 	protected $namespace = 'localweather.';
-	protected $api_url = 'http://api.worldweatheronline.com/free/v1/tz.ashx?';
+	protected $api_url = 'http://api.worldweatheronline.com/free/v1/weather.ashx?';
 
 	public function __construct(modX &$modx, array &$config)
 	{
@@ -122,19 +122,21 @@ class LocalWeather {
 			}
 
 			// Add base CSS
-			$this->config['css'] = array_filter(array_merge(
-				$this->config['css'],
-				$this->config['basecss']
-			));
-			
+			if($this->config['basecss'])
+			{
+				$stylesheets = $this->prepare_array($this->config['basecss']);
+				$this->insert_css($stylesheets);
+			}
+
+			// Add CSS
 			if($this->config['css'])
 			{
 				$stylesheets = $this->prepare_array($this->config['css']);
 				$this->insert_css($stylesheets);
 			}
-			
-			// TODO: Add theme CSS
-			//$this->theme( $this->theme, $this->themeurl );
+
+			// Add theme CSS
+			$this->theme( $this->config['theme'], $this->config['themeurl'] );
 
 			return $output;
 		}
@@ -409,9 +411,17 @@ class LocalWeather {
 	 * @param   string  $name   Theme name
 	 * @param   string  $url    Theme URL
 	 */
-	protected function theme($theme = NULL, $url = NULL)
+	protected function theme($theme = NULL, $themeurl = NULL)
 	{
-		// TODO: 
+		$css = 'css/' . $theme . '.css';
+		$url = $themeurl ? $url.$css : MODX_ASSETS_URL.'components/localweather/'.$css;
+		
+		if($url) {
+			$insert = $this->prepare_array($url);
+			
+			if( is_array($insert) )
+				$this->insert_css($insert);
+		}
 	}
 
 	/**
@@ -466,8 +476,9 @@ class LocalWeather {
 	 */	
 	protected function prepare_array($string)
 	{
-		$csv = array_map('trim', explode(',', $string));
-		$csv = ( is_array($csv) ) ? $csv : FALSE;
+		$csv = explode(',', $string);
+		if($csv) $csv = array_map('trim', $csv);
+		$csv = ( is_array($csv) ) ? $csv : array();
 
 		return $csv;
 	}

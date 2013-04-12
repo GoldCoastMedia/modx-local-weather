@@ -6,14 +6,15 @@ A MODx snippet to display weather forecasts and information.
 This extension uses the World Weather Online weather *free* API that is free to use
 both commercially and non-commercially.
 
-*NOTE: From 12th April 2013 you will need to register for a new API key*
+*IMPORTANT: If you registered for a key before the 27th March 2013 you will need to get register for a new one.*
+
 **You will need to get and use your own API key from http://developer.worldweatheronline.com/member/register**
 
 Please read the documentation at http://goldcoastmedia.co.uk/tools/modx/local-weather/
 for usage, examples, parameters and placeholder information.
 
-*NOTE*: *curl* or *file_get_contents* must be able to read remote files. You
-can set which method to use with the ```&method=````` parameter.
+*curl* or *file_get_contents* must be able to read remote files. You
+can set which method to use with the `&method=` parameter.
 
 Installation
 -----------
@@ -57,10 +58,8 @@ Displaying multiple forecasts with caching - cachename is also useful for using
 the same snippet calls across multiple resources
 
 ```
-
 [[!LocalWeather? &location=`Cairo` &country=`Egypt` &cachename=`egypt`]]
 [[!LocalWeather? &location=`Birmingham` &country=`UK` &cachename=`birmingham`]]
-
 ```
 
-Gold Coast Media Ltd
+*Gold Coast Media Ltd*

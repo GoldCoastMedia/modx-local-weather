@@ -31,6 +31,7 @@
 
 $_lang['prop_localweather.area_desc']          = 'Weather';
 
+// Snippet
 $_lang['prop_localweather.basecss_desc']       = 'Inserts the base CSS file. Leave blank exclude.';
 $_lang['prop_localweather.cachelifetime_desc'] = 'The amount of time to cache the weather feed (in seconds).';
 $_lang['prop_localweather.cachename_desc']     = 'The name of the cache feed.';
@@ -49,4 +50,32 @@ $_lang['prop_localweather.timeout_desc']       = 'The amount of seconds before t
 $_lang['prop_localweather.theme_desc']         = '';
 $_lang['prop_localweather.themeurl_desc']      = '';
 $_lang['prop_localweather.tpl_desc']           = 'The chunk used for the main current weather.';
+
+// Chunks
+$_lang['prop_localweather.chunk_day_desc']                = 'The day to display (e.g. Monday, Tuesday)';
+$_lang['prop_localweather.chunk_date_desc']               = 'The forecast date';
+$_lang['prop_localweather.chunk_cloudcover_desc']         = 'Cloud cover';
+$_lang['prop_localweather.chunk_humidity_desc']           = 'The current humidity';
+$_lang['prop_localweather.chunk_location_desc']           = 'Location';
+$_lang['prop_localweather.chunk_observation_time_desc']   = 'The observation time for the current data feed';
+$_lang['prop_localweather.chunk_precipMM_desc']           = 'Precipitation amount in millimetres';
+$_lang['prop_localweather.chunk_pressure_desc']           = 'Pressure';
+$_lang['prop_localweather.chunk_tempMaxC_desc']           = 'The forecasted maximum temperature in degrees Celcius';
+$_lang['prop_localweather.chunk_tempMaxF_desc']           = 'The forecasted maximum temperature in degrees Fahrenheit';
+$_lang['prop_localweather.chunk_tempMinC_desc']           = 'The forecasted minimum temperature in degrees Celcius';
+$_lang['prop_localweather.chunk_tempMinF_desc']           = 'The forecasted minimum temperature in degrees Fahrenheit';
+$_lang['prop_localweather.chunk_temp_C_desc']             = 'The temperature in degrees Celsius';
+$_lang['prop_localweather.chunk_temp_F_desc']             = 'The temperature in degrees Fahrenheit';
+$_lang['prop_localweather.chunk_theme_desc']              = 'The current theme name';
+$_lang['prop_localweather.chunk_visibility_desc']         = 'Visibility in km';
+$_lang['prop_localweather.chunk_visibilityMiles_desc']    = 'Visibility in mph';
+$_lang['prop_localweather.chunk_weatherCode_desc']        = 'Unique Weather Code';
+$_lang['prop_localweather.chunk_weatherDesc_desc']        = 'Weather description text';
+$_lang['prop_localweather.chunk_weatherDescDefault_desc'] = 'Weather description default';
+$_lang['prop_localweather.chunk_weatherIconUrl_desc']     = 'Weather Icon URL';
+$_lang['prop_localweather.chunk_winddir16Point_desc']     = '16-Point wind direction compass';
+$_lang['prop_localweather.chunk_winddirDegree_desc']      = 'Wind direction in degrees';
+$_lang['prop_localweather.chunk_winddirection_desc']      = 'Wind direction';
+$_lang['prop_localweather.chunk_windspeedKmph_desc']      = 'Wind speed in kmph';
+$_lang['prop_localweather.chunk_windspeedMiles_desc']     = 'Wind speed in mph';
 

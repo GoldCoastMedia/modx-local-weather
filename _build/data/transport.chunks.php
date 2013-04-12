@@ -30,7 +30,7 @@ $chunks[1]->fromArray(array(
 	'name' => 'localweather_current',
 	'description' => 'The current weather template chunk',
 	'snippet' => file_get_contents($sources['source_core'].'/elements/chunks/localweather_current.chunk.tpl'),
-	'properties' => '',
+	'properties' => include $sources['data'].'/properties/properties.localweather_current.chunk.php',
 ),'', TRUE, TRUE);
 
 $chunks[2]= $modx->newObject('modChunk');
@@ -39,7 +39,7 @@ $chunks[2]->fromArray(array(
 	'name' => 'localweather_forecast',
 	'description' => 'Weather forecast row chunk',
 	'snippet' => file_get_contents($sources['source_core'].'/elements/chunks/localweather_forecast.chunk.tpl'),
-	'properties' => '',
+	'properties' => include $sources['data'].'/properties/properties.localweather_forecast.chunk.php',
 ),'', TRUE, TRUE);
 
 

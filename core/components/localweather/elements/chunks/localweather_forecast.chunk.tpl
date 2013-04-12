@@ -4,6 +4,6 @@
 	<span class="localweather_icon [[+weatherIconCondition]]"></span>
 	<p><strong>[[+tempMaxC]]&deg;C</strong></p>
 	<p><small>[[+tempMinC]]&deg;C</small></p>
-	<span class="localweather_windrose dark direction_[[+winddir16Point]]">[[+windspeedMiles]]</span>
+	<span class="localweather_windrose dark direction_[[+winddir16Point]]" title="[[+winddir16Point]] ([[+winddirDegree]]&deg;)">[[+windspeedMiles]]</span>
 </div>
 

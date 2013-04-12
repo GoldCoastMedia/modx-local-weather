@@ -1,0 +1,1 @@
+convert $(LC_COLLATE="C" ls -w 1000) +append sprite.png
