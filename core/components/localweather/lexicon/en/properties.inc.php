@@ -47,8 +47,9 @@ $_lang['prop_localweather.method_desc']        = 'The method used to fetch the t
 $_lang['prop_localweather.phpdate_desc']       = 'The format string for displaying the date. See http://php.net/manual/en/function.date.php';
 $_lang['prop_localweather.rowtpl_desc']        = 'The chunk used for each individual weather forecast row.';
 $_lang['prop_localweather.timeout_desc']       = 'The amount of seconds before timing out an API connection.';
-$_lang['prop_localweather.theme_desc']         = '';
-$_lang['prop_localweather.themeurl_desc']      = '';
+$_lang['prop_localweather.theme_desc']         = 'The theme name.';
+$_lang['prop_localweather.themecss_desc']      = 'Enable/disable a theme file being added to the document head.';
+$_lang['prop_localweather.themeurl_desc']      = 'Theme CSS URL';
 $_lang['prop_localweather.tpl_desc']           = 'The chunk used for the main current weather.';
 
 // Chunks

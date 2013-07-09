@@ -152,6 +152,16 @@ return array(
 		'area'    => 'prop_localweather.area_desc',
 		'options' => '',
 	),
+	// themecss
+	array(
+		'name'    => 'themecss',
+		'desc'    => 'prop_localweather.themecss_desc',
+		'type'    => 'combo-boolean',
+		'value'   => '1',
+		'lexicon' => 'localweather:properties',
+		'area'    => 'prop_localweather.area_desc',
+		'options' => '',
+	),
 	// themeurl
 	array(
 		'name'    => 'themeurl',

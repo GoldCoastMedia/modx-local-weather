@@ -43,6 +43,7 @@ class LocalWeather {
 		'phpdate'       => '%a',
 		'rowtpl'        => 'localweather_forecast',
 		'theme'         => 'default',
+		'themecss'      => TRUE,
 		'themeurl'      => NULL,
 		'timeout'       => 5,
 		'tpl'           => 'localweather_weather',
@@ -136,7 +137,8 @@ class LocalWeather {
 			}
 
 			// Add theme CSS
-			$this->theme( $this->config['theme'], $this->config['themeurl'] );
+			if($this->config['themecss'])
+				$this->theme( $this->config['theme'], $this->config['themeurl'] );
 
 			return $output;
 		}
