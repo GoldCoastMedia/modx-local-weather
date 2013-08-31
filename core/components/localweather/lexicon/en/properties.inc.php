@@ -36,6 +36,7 @@ $_lang['prop_localweather.basecss_desc']       = 'Inserts the base CSS file. Lea
 $_lang['prop_localweather.cachelifetime_desc'] = 'The amount of time to cache the weather feed (in seconds).';
 $_lang['prop_localweather.cachename_desc']     = 'The name of the cache feed.';
 $_lang['prop_localweather.css_desc']           = 'A comma separated list of CSS files to insert.';
+$_lang['prop_localweather.cssmin_desc']        = 'Append .min to CSS files. E.g. file.min.css';
 $_lang['prop_localweather.country_desc']       = 'The country to obtain the weather feed for. Not usually required.';
 $_lang['prop_localweather.current_desc']       = 'Display/render the current weather information for today. Default 1.';
 $_lang['prop_localweather.days_desc']          = 'The number of days to use in the weather forecast. 1-5.';

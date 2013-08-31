@@ -42,6 +42,16 @@ return array(
 		'area'    => 'prop_localweather.area_desc',
 		'options' => '',
 	),
+	// cssmin
+	array(
+		'name'    => 'cssmin',
+		'desc'    => 'prop_localweather.cssmin_desc',
+		'type'    => 'textarea',
+		'value'   => '',
+		'lexicon' => 'localweather:properties',
+		'area'    => 'prop_localweather.area_desc',
+		'options' => '',
+	),
 	// country
 	array(
 		'name'    => 'country',

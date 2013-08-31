@@ -1,5 +1,13 @@
 Changelog for Local Weather (MODx Revolution)
 
+1.1
+===
+- Removed development files
+- Fixed CSS being added when 'css' parameter set to 0
+- Added cssmin parameter for minified CSS
+- Added a 'pause' parameter to prevent too many subsequent API request. By default
+the pause is set to 0.4 seconds
+
 1.0.6-rc1
 =========
 - Added themecss property to enable or disable the theme css file being injected

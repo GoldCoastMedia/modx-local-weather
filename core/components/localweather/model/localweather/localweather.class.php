@@ -29,9 +29,10 @@ class LocalWeather {
 	// Default configuration
 	public $config = array(
 		'basecss'       => '{MODX_ASSETS_URL}localweather/css/base.css',
-		'cachelifetime' => 1800,
+		'cachelifetime' => 1800, // Minimum 900
 		'cachename'     => NULL,
 		'css'           => NULL,
+		'cssmin'        => TRUE,
 		'country'       => NULL,
 		'current'       => TRUE,
 		'days'          => 5,
@@ -40,6 +41,7 @@ class LocalWeather {
 		'key'           => NULL,
 		'location'      => 'London',
 		'method'        => 'curl',
+		'pause'         => 0.4, // Should not exceed 3 requests per second
 		'phpdate'       => '%a',
 		'rowtpl'        => 'localweather_forecast',
 		'theme'         => 'default',
@@ -56,7 +58,7 @@ class LocalWeather {
 
 	protected $modx      = NULL;
 	protected $namespace = 'localweather.';
-	protected $api_url = 'http://api.worldweatheronline.com/free/v1/weather.ashx?';
+	protected $api_url   = 'http://api.worldweatheronline.com/free/v1/weather.ashx?';
 
 	public function __construct(modX &$modx, array &$config)
 	{
@@ -122,23 +124,28 @@ class LocalWeather {
 				$output .= $this->weather_forecast($forecast);
 			}
 
-			// Add base CSS
-			if($this->config['basecss'])
-			{
-				$stylesheets = $this->prepare_array($this->config['basecss']);
-				$this->insert_css($stylesheets);
-			}
-
 			// Add CSS
-			if($this->config['css'])
+			if($this->config['css'] != 0) 
 			{
-				$stylesheets = $this->prepare_array($this->config['css']);
-				$this->insert_css($stylesheets);
+
+				if($this->config['basecss'])
+				{
+					$stylesheets = $this->prepare_array($this->config['basecss']);
+					$this->insert_css($stylesheets);
+				}
+
+				if($this->config['css'])
+				{
+					$stylesheets = $this->prepare_array($this->config['css']);
+					$this->insert_css($stylesheets);
+				}
+
+				if($this->config['themecss'])
+					$this->theme( $this->config['theme'], $this->config['themeurl'], $this->config['cssmin'] );
 			}
 
-			// Add theme CSS
-			if($this->config['themecss'])
-				$this->theme( $this->config['theme'], $this->config['themeurl'] );
+			// FIXME: A better approach
+			sleep($this->config['pause']);
 
 			return $output;
 		}
@@ -413,8 +420,9 @@ class LocalWeather {
 	 * @param   string  $name   Theme name
 	 * @param   string  $url    Theme URL
 	 */
-	protected function theme($theme = NULL, $themeurl = NULL)
+	protected function theme($theme = NULL, $themeurl = NULL, $minify)
 	{
+		if($minify) $theme .= '.min';
 		$css = 'css/' . $theme . '.css';
 		$url = $themeurl ? $url.$css : MODX_ASSETS_URL.'components/localweather/'.$css;
 		
